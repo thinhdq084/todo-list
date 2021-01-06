@@ -1,0 +1,81 @@
+.taskDescriptionDisplay {
+  color: silver;
+  font: italic;
+}
+a {
+  text-decoration: none;
+  color: #333333;
+}
+
+a:hover {
+  color: #f58551;
+}
+
+ul {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+}
+
+.chk {
+  max-width: 100%;
+  vertical-align: middle;
+  border-radius: 4px;
+  outline: none !important;
+}
+
+.row {
+  padding: 1rem 0;
+  border-bottom: 1px solid #ddd;
+  position: relative;
+  overflow: auto;
+  width: 100%;
+  flex-wrap: nowrap;
+  flex-direction: column;
+}
+
+.colLeft {
+  float: left;
+  width: 70%;
+}
+
+.colRight {
+  float: left;
+  width: 30%;
+  position: absolute;
+  right: 0;
+  top: calc(50% - 30px);
+}
+
+.detail {
+  padding: 0 0.5rem;
+  line-height: 2.2rem;
+}
+
+.detailName {
+  font-size: 1.2rem;
+}
+
+.detailDescription {
+  color: #7d7d7d;
+  font-size: 1rem;
+}
+
+.remove {
+  float: left;
+  width: 50%;
+  text-align: center;
+}
+
+.close {
+  width: 60px;
+  height: 60px;
+  fill: #7d7d7d;
+  transition: color 150ms linear, background-color 150ms linear,
+    fill 150ms linear, 150ms opacity linear;
+  cursor: pointer;
+}
+
+.closeHover {
+  fill: #f58551;
+}
