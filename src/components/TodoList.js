@@ -1,12 +1,24 @@
 import React from "react";
 import classes from "./TodoList.module.css";
 
-function Task({ taskName, description, taskStatus, onRemoveProduct }) {
+function Task({
+  taskName,
+  description,
+  taskStatus,
+  onRemoveProduct,
+  onStatusCheckedChanged,
+}) {
   return (
     <li className={classes.row}>
       <div className={classes.colLeft}>
         <div>
-          <input id="todo-1" type="checkbox" className={classes.chk} />
+          <input
+            id="todo-1"
+            type="checkbox"
+            className={classes.chk}
+            checked={taskStatus}
+            onChange={(x) => onStatusCheckedChanged(x, taskName)}
+          />
         </div>
         <div className={classes.detail}>
           <div className={classes.detailName}>

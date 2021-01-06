@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "./App.css";
 import Task from "./components/TodoList";
-import AddTask from "./components/AddTask";
 
 const taskTemplate = {
   taskName: "a",
@@ -11,16 +10,22 @@ const taskTemplate = {
 
 function App() {
   let tasks = [];
-  // tasks[0]={...taskTemplate};
-  let [listTask, setTask] = useState(tasks);
-  let [showAddForm, setShowAddForm] = useState(false);
 
-  let fnShowAddForm = () => {
-    setShowAddForm(true);
+  let [listTask, setTask] = useState(tasks);
+  let [showAddTask, setShowAddTask] = useState(false);
+
+  let [name, setName] = useState("");
+  let [description, setDescription] = useState("");
+  let [taskStatus, setStatus] = useState(false);
+
+  let fnShowAddTask = () => {
+    setShowAddTask(true);
   };
+
   let closeForm = () => {
-    setShowAddForm(false);
+    setShowAddTask(false);
   };
+
   let addTask = (name, description, taskStatus) => {
     let obj = {
       ...taskTemplate,
@@ -30,14 +35,43 @@ function App() {
     };
     tasks = [...listTask, { ...obj }];
     setTask(tasks);
-    // this.forceUpdate();
-    alert("Thành công.");
   };
 
   let removeTask = (taskName) => {
     setTask((listTask) => {
       return listTask.filter((task) => task.taskName !== taskName);
     });
+  };
+
+  let linkList = () => {
+    closeForm();
+  };
+
+  let handleAddTask = () => {
+    setStatus(0);
+    addTask(name, description, taskStatus);
+  };
+
+  let onChangedName = (e) => {
+    setName(e.target.value);
+  };
+
+  let onChangedDes = (e) => {
+    setDescription(e.target.value);
+  };
+
+  let onStatusCheckedChanged = (e, taskName) => {
+    setStatus(e.target.checked);
+
+    tasks = listTask.map((task) => {
+      if (task.taskName === taskName) {
+        let newTask = { ...task, taskStatus: taskStatus };
+        return newTask;
+      }
+      return task;
+    });
+
+    setTask(tasks);
   };
 
   let itemTasks = [];
@@ -50,33 +84,80 @@ function App() {
           description={task.description}
           taskStatus={task.taskStatus}
           onRemoveProduct={removeTask}
+          onStatusCheckedChanged={onStatusCheckedChanged}
         />
       );
     });
   }
-  if (showAddForm === true) {
-    return <AddTask addTask={addTask} closeForm={closeForm} />;
-  } else {
-    return (
-      <div className="App">
-        <main>
-          <header className="container">
-            <h1>List Task</h1>
-          </header>
-          <section className="container">
-            <ul className="products">{itemTasks}</ul>
-          </section>
+
+  let itemAddTask = "";
+
+  if (showAddTask === true) {
+    itemAddTask = (
+      <div>
+        <div className="container">
+          <h2>Add New Task</h2>
+          <div className="form-group">
+            <label>
+              Name:
+              <input
+                type="text"
+                className="taskName"
+                placeholder="Enter name of task"
+                onChange={onChangedName}
+              />
+            </label>
+          </div>
+          <div className="form-group">
+            <label>
+              Description:
+              <input
+                type="text"
+                className="taskDes"
+                placeholder="Enter description of task"
+                onChange={onChangedDes}
+              />
+            </label>
+          </div>
+
           <button
-            type="button"
-            className="btn btn-outline-primary"
-            onClick={fnShowAddForm}
+            type="submit"
+            className="btn btn-default"
+            onClick={handleAddTask}
           >
-            Add Task
+            Add
           </button>
-        </main>
+          <button type="button" className="btn btn-default" onClick={linkList}>
+            Back
+          </button>
+        </div>
       </div>
     );
+  } else {
+    itemAddTask = (
+      <button
+        type="button"
+        className="btn btn-outline-primary"
+        onClick={fnShowAddTask}
+      >
+        Add Task
+      </button>
+    );
   }
+
+  return (
+    <div className="App">
+      <main>
+        <header className="container">
+          <h1>List Task</h1>
+        </header>
+        <section className="container">
+          <ul className="products">{itemTasks}</ul>
+        </section>
+        {itemAddTask}
+      </main>
+    </div>
+  );
 }
 
 export default App;
