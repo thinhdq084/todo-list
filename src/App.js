@@ -31,6 +31,7 @@ function App() {
     tasks = [...listTask, { ...obj }];
     setTask(tasks);
     // this.forceUpdate();
+    alert("Thành công.");
   };
 
   let removeTask = (taskName) => {
