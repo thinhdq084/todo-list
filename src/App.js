@@ -34,46 +34,16 @@ function App() {
       let tasks = [...listTasks, { ...obj }];
 
       setTask(tasks);
-
-      setUnCompletedTasks(() => {
-        return tasks
-          .filter((task) => task.status !== true)
-          .sort(
-            (a, b) => b.favourite - a.favourite || a.dateCreate - b.dateCreate
-          );
-      });
-
-      setCompletedTasks(() => {
-        return tasks
-          .filter((task) => task.status === true)
-          .sort(
-            (a, b) =>
-              a.dateCompleted - b.dateCompleted || b.favourite - a.favourite
-          );
-      });
+      getUnCompletedTasks(tasks);
+      getCompletedTasks(tasks);
     }
   };
 
   let removeTask = (taskName) => {
     let tasks = listTasks.filter((task) => task.taskName !== taskName);
     setTask(tasks);
-
-    setUnCompletedTasks(() => {
-      return tasks
-        .filter((task) => task.status !== true)
-        .sort(
-          (a, b) => b.favourite - a.favourite || a.dateCreate - b.dateCreate
-        );
-    });
-
-    setCompletedTasks(() => {
-      return tasks
-        .filter((task) => task.status === true)
-        .sort(
-          (a, b) =>
-            a.dateCompleted - b.dateCompleted || b.favourite - a.favourite
-        );
-    });
+    getUnCompletedTasks(tasks);
+    getCompletedTasks(tasks);
   };
 
   let onStatusChanged = (e, taskName) => {
@@ -91,23 +61,8 @@ function App() {
     });
 
     setTask(tasks);
-
-    setUnCompletedTasks(() => {
-      return tasks
-        .filter((task) => task.status !== true)
-        .sort(
-          (a, b) => b.favourite - a.favourite || a.dateCreate - b.dateCreate
-        );
-    });
-
-    setCompletedTasks(() => {
-      return tasks
-        .filter((task) => task.status === true)
-        .sort(
-          (a, b) =>
-            a.dateCompleted - b.dateCompleted || b.favourite - a.favourite
-        );
-    });
+    getUnCompletedTasks(tasks);
+    getCompletedTasks(tasks);
   };
 
   let onFavouriteChanged = (status, taskName) => {
@@ -123,21 +78,27 @@ function App() {
     });
 
     setTask(tasks);
+    getUnCompletedTasks(tasks);
+    getCompletedTasks(tasks);
+  };
 
+  let getUnCompletedTasks = (list) => {
     setUnCompletedTasks(() => {
-      return tasks
+      return list
         .filter((task) => task.status !== true)
         .sort(
           (a, b) => b.favourite - a.favourite || a.dateCreate - b.dateCreate
         );
     });
+  };
 
+  let getCompletedTasks = (list) => {
     setCompletedTasks(() => {
-      return tasks
+      return list
         .filter((task) => task.status === true)
         .sort(
           (a, b) =>
-            a.dateCompleted - b.dateCompleted || b.favourite - a.favourite
+            b.dateCompleted - a.dateCompleted || b.favourite - a.favourite
         );
     });
   };
@@ -152,7 +113,7 @@ function App() {
           description={task.description}
           favourite={task.favourite}
           taskStatus={task.status}
-          onRemoveProduct={removeTask}
+          onRemoveTask={removeTask}
           onStatusChanged={onStatusChanged}
           onFavouriteChanged={onFavouriteChanged}
         />
@@ -174,9 +135,9 @@ function App() {
           description={task.description}
           favourite={task.favourite}
           taskStatus={task.status}
-          onRemoveProduct={removeTask}
+          onRemoveTask={removeTask}
           onStatusChanged={onStatusChanged}
-          onFavouriteChanged={onFavouriteChanged}
+          // onFavouriteChanged={onFavouriteChanged}
         />
       );
     });
