@@ -1,37 +1,47 @@
 import React from "react";
-import classes from "./TodoList.module.css";
+import "./TodoList.css";
+import { StarOutlined, StarTwoTone } from "@ant-design/icons";
 
-function Task({
+function TodoList({
   taskName,
   description,
   taskStatus,
+  favourite,
   onRemoveProduct,
-  onStatusCheckedChanged,
+  onStatusChanged,
+  onFavouriteChanged,
 }) {
+  let itemFavourite = !favourite ? (
+    <StarOutlined onClick={() => onFavouriteChanged(true, taskName)} />
+  ) : (
+    <StarTwoTone
+      twoToneColor="#eb2f96"
+      // onClick={() => onFavouriteChanged(false, taskName)}
+    />
+  );
   return (
-    <li className={classes.row}>
-      <div className={classes.colLeft}>
+    <div className="row">
+      <div className="colLeft">
         <div>
           <input
-            id="todo-1"
+            className="chk"
             type="checkbox"
-            className={classes.chk}
             checked={taskStatus}
-            onChange={(x) => onStatusCheckedChanged(x, taskName)}
+            onChange={(x) => onStatusChanged(x, taskName)}
           />
         </div>
-        <div className={classes.detail}>
-          <div className={classes.detailName}>
-            <a href="#">{taskName}</a>
-          </div>
-          <div className={classes.taskDescriptionDisplay}>{description}</div>
+        <div className="name">
+          <a href="#">{taskName}</a>
+          <br />
+          <label className="description">{description}</label>
         </div>
       </div>
-      <div className={classes.colRight}>
-        <div className={classes.remove}>
+      <div className="colRight">
+        <div>{itemFavourite}</div>
+        <div className="remove">
           <svg
             version="1.1"
-            className={classes.close}
+            className="close"
             xmlns="//www.w3.org/2000/svg"
             xmlnsXlink="//www.w3.org/1999/xlink"
             x="0px"
@@ -45,8 +55,8 @@ function Task({
           </svg>
         </div>
       </div>
-    </li>
+    </div>
   );
 }
 
-export default Task;
+export default TodoList;

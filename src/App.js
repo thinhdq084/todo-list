@@ -1,22 +1,14 @@
 import React, { useState } from "react";
 import "./App.css";
-import Task from "./components/TodoList";
-
-const taskTemplate = {
-  taskName: "a",
-  description: "a1",
-  taskStatus: false,
-};
+import TodoList from "./components/TodoList";
+import AddTask from "./components/AddTask";
 
 function App() {
-  let tasks = [];
-
-  let [listTask, setTask] = useState(tasks);
+  let [listTasks, setTask] = useState([]);
   let [showAddTask, setShowAddTask] = useState(false);
-
-  let [name, setName] = useState("");
-  let [description, setDescription] = useState("");
   let [taskStatus, setStatus] = useState(false);
+  let [unCompletedTasks, setUnCompletedTasks] = useState([]);
+  let [completedTasks, setCompletedTasks] = useState([]);
 
   let fnShowAddTask = () => {
     setShowAddTask(true);
@@ -27,134 +19,204 @@ function App() {
   };
 
   let addTask = (name, description, taskStatus) => {
-    let obj = {
-      ...taskTemplate,
-      taskName: name,
-      description: description,
-      taskStatus: taskStatus,
-    };
-    tasks = [...listTask, { ...obj }];
-    setTask(tasks);
+    let obj2 = listTasks.find((task) => task.taskName === name);
+    if (obj2) {
+      alert("Đã tồn tại task có tên: " + name);
+    } else {
+      let obj = {
+        taskName: name,
+        description: description,
+        status: taskStatus,
+        favourite: false,
+        dateCreate: new Date().getTime(),
+        dateCompleted: "null",
+      };
+      let tasks = [...listTasks, { ...obj }];
+
+      setTask(tasks);
+
+      setUnCompletedTasks(() => {
+        return tasks
+          .filter((task) => task.status !== true)
+          .sort(
+            (a, b) => b.favourite - a.favourite || a.dateCreate - b.dateCreate
+          );
+      });
+
+      setCompletedTasks(() => {
+        return tasks
+          .filter((task) => task.status === true)
+          .sort(
+            (a, b) =>
+              a.dateCompleted - b.dateCompleted || b.favourite - a.favourite
+          );
+      });
+    }
   };
 
   let removeTask = (taskName) => {
-    setTask((listTask) => {
-      return listTask.filter((task) => task.taskName !== taskName);
+    let tasks = listTasks.filter((task) => task.taskName !== taskName);
+    setTask(tasks);
+
+    setUnCompletedTasks(() => {
+      return tasks
+        .filter((task) => task.status !== true)
+        .sort(
+          (a, b) => b.favourite - a.favourite || a.dateCreate - b.dateCreate
+        );
+    });
+
+    setCompletedTasks(() => {
+      return tasks
+        .filter((task) => task.status === true)
+        .sort(
+          (a, b) =>
+            a.dateCompleted - b.dateCompleted || b.favourite - a.favourite
+        );
     });
   };
 
-  let linkList = () => {
-    closeForm();
-  };
-
-  let handleAddTask = () => {
-    setStatus(0);
-    addTask(name, description, taskStatus);
-  };
-
-  let onChangedName = (e) => {
-    setName(e.target.value);
-  };
-
-  let onChangedDes = (e) => {
-    setDescription(e.target.value);
-  };
-
-  let onStatusCheckedChanged = (e, taskName) => {
+  let onStatusChanged = (e, taskName) => {
     setStatus(e.target.checked);
-
-    tasks = listTask.map((task) => {
+    let tasks = listTasks.map((task) => {
       if (task.taskName === taskName) {
-        let newTask = { ...task, taskStatus: taskStatus };
+        let newTask = {
+          ...task,
+          status: taskStatus,
+          dateCompleted: new Date().getTime(),
+        };
         return newTask;
       }
       return task;
     });
 
     setTask(tasks);
+
+    setUnCompletedTasks(() => {
+      return tasks
+        .filter((task) => task.status !== true)
+        .sort(
+          (a, b) => b.favourite - a.favourite || a.dateCreate - b.dateCreate
+        );
+    });
+
+    setCompletedTasks(() => {
+      return tasks
+        .filter((task) => task.status === true)
+        .sort(
+          (a, b) =>
+            a.dateCompleted - b.dateCompleted || b.favourite - a.favourite
+        );
+    });
   };
 
-  let itemTasks = [];
-  if (listTask.length > 0) {
-    itemTasks = listTask.map((task) => {
+  let onFavouriteChanged = (status, taskName) => {
+    let tasks = listTasks.map((task) => {
+      if (task.taskName === taskName) {
+        let newTask = {
+          ...task,
+          favourite: status,
+        };
+        return newTask;
+      }
+      return task;
+    });
+
+    setTask(tasks);
+
+    setUnCompletedTasks(() => {
+      return tasks
+        .filter((task) => task.status !== true)
+        .sort(
+          (a, b) => b.favourite - a.favourite || a.dateCreate - b.dateCreate
+        );
+    });
+
+    setCompletedTasks(() => {
+      return tasks
+        .filter((task) => task.status === true)
+        .sort(
+          (a, b) =>
+            a.dateCompleted - b.dateCompleted || b.favourite - a.favourite
+        );
+    });
+  };
+
+  let unCompletedComponent = [];
+  if (unCompletedTasks.length > 0) {
+    unCompletedComponent = unCompletedTasks.map((task) => {
       return (
-        <Task
+        <TodoList
           key={task.taskName}
           taskName={task.taskName}
           description={task.description}
-          taskStatus={task.taskStatus}
+          favourite={task.favourite}
+          taskStatus={task.status}
           onRemoveProduct={removeTask}
-          onStatusCheckedChanged={onStatusCheckedChanged}
+          onStatusChanged={onStatusChanged}
+          onFavouriteChanged={onFavouriteChanged}
         />
       );
     });
   }
 
+  let countInCompleted = () => {
+    return unCompletedTasks.length;
+  };
+
+  let completedComponent = [];
+  if (completedTasks.length > 0) {
+    completedComponent = completedTasks.map((task) => {
+      return (
+        <TodoList
+          key={task.taskName}
+          taskName={task.taskName}
+          description={task.description}
+          favourite={task.favourite}
+          taskStatus={task.status}
+          onRemoveProduct={removeTask}
+          onStatusChanged={onStatusChanged}
+          onFavouriteChanged={onFavouriteChanged}
+        />
+      );
+    });
+  }
+
+  let countCompleted = () => {
+    return completedTasks.length;
+  };
+
   let itemAddTask = "";
 
   if (showAddTask === true) {
-    itemAddTask = (
-      <div>
-        <div className="container">
-          <h2>Add New Task</h2>
-          <div className="form-group">
-            <label>
-              Name:
-              <input
-                type="text"
-                className="taskName"
-                placeholder="Enter name of task"
-                onChange={onChangedName}
-              />
-            </label>
-          </div>
-          <div className="form-group">
-            <label>
-              Description:
-              <input
-                type="text"
-                className="taskDes"
-                placeholder="Enter description of task"
-                onChange={onChangedDes}
-              />
-            </label>
-          </div>
-
-          <button
-            type="submit"
-            className="btn btn-default"
-            onClick={handleAddTask}
-          >
-            Add
-          </button>
-          <button type="button" className="btn btn-default" onClick={linkList}>
-            Back
-          </button>
-        </div>
-      </div>
-    );
+    itemAddTask = <AddTask addNewTask={addTask} closeAddNew={closeForm} />;
   } else {
     itemAddTask = (
-      <button
-        type="button"
-        className="btn btn-outline-primary"
-        onClick={fnShowAddTask}
-      >
-        Add Task
-      </button>
+      <div className="buttonRow">
+        <button className="addNewButton" onClick={fnShowAddTask}>
+          Add Task
+        </button>
+      </div>
     );
   }
 
   return (
     <div className="App">
       <main>
-        <header className="container">
-          <h1>List Task</h1>
+        <header className="container" align="center">
+          <h1 align="center">List Task</h1>
         </header>
         <section className="container">
-          <ul className="products">{itemTasks}</ul>
+          {itemAddTask}
+          <div>
+            <label>InCompleted: {countInCompleted()} task</label>
+          </div>
+          <ul className="listTask">{unCompletedComponent}</ul>
+          <div>
+            <label>Completed: {countCompleted()} task</label>
+          </div>
+          <ul className="listTask">{completedComponent}</ul>
         </section>
-        {itemAddTask}
       </main>
     </div>
   );

@@ -1,0 +1,19 @@
+.addContainer{
+  border-top: 1px solid #ddd;
+}
+
+
+input {
+  width: 80%;
+  /* display: flex; */
+  /* border-radius: 5px; */
+}
+
+.addNewButton {
+  width: 30%;
+  display: center;
+}
+
+h2{
+  display: center;
+}

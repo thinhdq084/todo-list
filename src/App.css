@@ -1,13 +1,19 @@
 * {
-  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  /* box-sizing: border-box; */
+  border-radius: 5px;
 }
-
+header {
+  background-color: #a9ac02;
+}
 html {
   font-size: 12px;
+  /* background-color: #0204ac; */
 }
 
 body {
-  margin: 20px 0;
+  /* margin: 20px 0; */
   padding: 0;
   font-family: arial, sans-serif;
   overflow: scroll;
@@ -29,4 +35,29 @@ a:hover {
   to {
     transform: rotate(360deg);
   }
+}
+
+.container {
+  max-width: 400px;
+  margin: 0 auto;
+  overflow: auto;
+  background-color: #a9ac02;
+}
+
+.addRow {
+  padding: 0.25rem 0;
+  margin: 0px 20px;
+  border-bottom: 1px solid #ddd;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end; 
+}
+
+.buttonRow {
+  padding: 0.25rem 0;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
 }
