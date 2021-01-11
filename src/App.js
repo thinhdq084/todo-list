@@ -6,7 +6,6 @@ import AddTask from "./components/AddTask";
 function App() {
   let [listTasks, setTask] = useState([]);
   let [showAddTask, setShowAddTask] = useState(false);
-  let [taskStatus, setStatus] = useState(false);
   let [unCompletedTasks, setUnCompletedTasks] = useState([]);
   let [completedTasks, setCompletedTasks] = useState([]);
 
@@ -18,16 +17,16 @@ function App() {
     setShowAddTask(false);
   };
 
-  let addTask = (name, description, taskStatus) => {
-    let obj2 = listTasks.find((task) => task.taskName === name);
-    if (obj2) {
-      alert("Đã tồn tại task có tên: " + name);
+  let addTask = (name, description) => {
+    if (name === "") {
+      alert("Please enter Task name.");
     } else {
       let obj = {
+        taskId: new Date().getTime(),
         taskName: name,
         description: description,
-        status: taskStatus,
-        favourite: false,
+        status: 0,
+        favourite: 0,
         dateCreate: new Date().getTime(),
         dateCompleted: "null",
       };
@@ -39,20 +38,20 @@ function App() {
     }
   };
 
-  let removeTask = (taskName) => {
-    let tasks = listTasks.filter((task) => task.taskName !== taskName);
+  let removeTask = (taskId) => {
+    let tasks = listTasks.filter((task) => task.taskId !== taskId);
     setTask(tasks);
     getUnCompletedTasks(tasks);
     getCompletedTasks(tasks);
   };
 
-  let onStatusChanged = (e, taskName) => {
-    setStatus(e.target.checked);
+  let onStatusChanged = (e, taskId) => {
+    // setStatus(e.target.checked ? 1 : 0);
     let tasks = listTasks.map((task) => {
-      if (task.taskName === taskName) {
+      if (task.taskId === taskId) {
         let newTask = {
           ...task,
-          status: taskStatus,
+          status: e.target.checked === true ? 1 : 0,
           dateCompleted: new Date().getTime(),
         };
         return newTask;
@@ -65,9 +64,9 @@ function App() {
     getCompletedTasks(tasks);
   };
 
-  let onFavouriteChanged = (status, taskName) => {
+  let onFavouriteChanged = (status, taskId) => {
     let tasks = listTasks.map((task) => {
-      if (task.taskName === taskName) {
+      if (task.taskId === taskId && task.status === 0) {
         let newTask = {
           ...task,
           favourite: status,
@@ -85,7 +84,7 @@ function App() {
   let getUnCompletedTasks = (list) => {
     setUnCompletedTasks(() => {
       return list
-        .filter((task) => task.status !== true)
+        .filter((task) => task.status === 0)
         .sort(
           (a, b) => b.favourite - a.favourite || a.dateCreate - b.dateCreate
         );
@@ -95,7 +94,7 @@ function App() {
   let getCompletedTasks = (list) => {
     setCompletedTasks(() => {
       return list
-        .filter((task) => task.status === true)
+        .filter((task) => task.status === 1)
         .sort(
           (a, b) =>
             b.dateCompleted - a.dateCompleted || b.favourite - a.favourite
@@ -108,7 +107,8 @@ function App() {
     unCompletedComponent = unCompletedTasks.map((task) => {
       return (
         <TodoList
-          key={task.taskName}
+          key={task.taskId}
+          taskId={task.taskId}
           taskName={task.taskName}
           description={task.description}
           favourite={task.favourite}
@@ -130,14 +130,15 @@ function App() {
     completedComponent = completedTasks.map((task) => {
       return (
         <TodoList
-          key={task.taskName}
+          key={task.taskId}
+          taskId={task.taskId}
           taskName={task.taskName}
           description={task.description}
           favourite={task.favourite}
           taskStatus={task.status}
           onRemoveTask={removeTask}
           onStatusChanged={onStatusChanged}
-          // onFavouriteChanged={onFavouriteChanged}
+          onFavouriteChanged={onFavouriteChanged}
         />
       );
     });

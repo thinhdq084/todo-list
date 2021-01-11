@@ -4,15 +4,15 @@ import "./AddTask.css";
 const AddTask = ({ addNewTask, closeAddNew }) => {
   let [name, setName] = useState("");
   let [description, setDescription] = useState("");
-  let [taskStatus, setStatus] = useState(false);
 
   let linkList = () => {
     closeAddNew();
   };
 
   let handleAddTask = () => {
-    setStatus(0);
-    addNewTask(name, description, taskStatus);
+    addNewTask(name, description);
+    setName("");
+    setDescription("");
   };
 
   let onChangedName = (e) => {
@@ -26,12 +26,13 @@ const AddTask = ({ addNewTask, closeAddNew }) => {
   return (
     <div>
       <div className="addContainer">
-        <h2 align = "center">Add New Task</h2>
+        <h2 align="center">Add New Task</h2>
         <div className="addRow">
           <label>Name:</label>
           <input
             type="text"
             placeholder="Enter name of task"
+            value={name}
             onChange={onChangedName}
           />
         </div>
@@ -40,15 +41,20 @@ const AddTask = ({ addNewTask, closeAddNew }) => {
           <input
             type="text"
             placeholder="Enter description of task"
+            value={description}
             onChange={onChangedDes}
           />
         </div>
 
         <div className="buttonRow">
-          <button className = "addNewButton" type="button" onClick={handleAddTask}>
+          <button
+            className="addNewButton"
+            type="button"
+            onClick={handleAddTask}
+          >
             Add
           </button>
-          <button className = "addNewButton" type="button" onClick={linkList}>
+          <button className="addNewButton" type="button" onClick={linkList}>
             Back
           </button>
         </div>

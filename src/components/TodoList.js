@@ -3,6 +3,7 @@ import "./TodoList.css";
 import { StarOutlined, StarTwoTone } from "@ant-design/icons";
 
 function TodoList({
+  taskId,
   taskName,
   description,
   taskStatus,
@@ -12,11 +13,11 @@ function TodoList({
   onFavouriteChanged,
 }) {
   let itemFavourite = !favourite ? (
-    <StarOutlined onClick={() => onFavouriteChanged(true, taskName)} />
+    <StarOutlined onClick={() => onFavouriteChanged(1, taskId)} />
   ) : (
     <StarTwoTone
       twoToneColor="#eb2f96"
-      onClick={() => onFavouriteChanged(false, taskName)}
+      onClick={() => onFavouriteChanged(0, taskId)}
     />
   );
   return (
@@ -27,7 +28,7 @@ function TodoList({
             className="chk"
             type="checkbox"
             checked={taskStatus}
-            onChange={(x) => onStatusChanged(x, taskName)}
+            onChange={(x) => onStatusChanged(x, taskId)}
           />
         </div>
         <div className="name">
@@ -49,7 +50,7 @@ function TodoList({
             viewBox="0 0 60 60"
             enableBackground="new 0 0 60 60"
             xmlSpace="preserve"
-            onClick={() => onRemoveTask(taskName)}
+            onClick={() => onRemoveTask(taskId)}
           >
             <polygon points="38.936,23.561 36.814,21.439 30.562,27.691 24.311,21.439 22.189,23.561 28.441,29.812 22.189,36.064 24.311,38.186 30.562,31.934 36.814,38.186 38.936,36.064 32.684,29.812" />
           </svg>
