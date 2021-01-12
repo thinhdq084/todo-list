@@ -2,7 +2,7 @@
   margin: 0;
   padding: 0;
   /* box-sizing: border-box; */
-  border-radius: 5px;
+  /* border-radius: 5px; */
 }
 header {
   background-color: #a9ac02;
@@ -60,4 +60,5 @@ a:hover {
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
+  width: 98%;
 }
