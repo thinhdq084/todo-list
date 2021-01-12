@@ -43,23 +43,3 @@ a:hover {
   overflow: auto;
   background-color: #a9ac02;
 }
-
-.addRow {
-  padding: 0.25rem 0;
-  margin: 0px 20px;
-  border-bottom: 1px solid #ddd;
-  position: relative;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end; 
-}
-
-.buttonRow {
-  padding: 0.25rem 0;
-  position: relative;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  /* width: 98%; */
-  margin: 5px 5px;
-}
