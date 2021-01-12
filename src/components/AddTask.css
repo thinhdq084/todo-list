@@ -4,9 +4,10 @@
 
 
 input {
-  width: 80%;
+  /* width: 80%; */
   /* display: flex; */
   /* border-radius: 5px; */
+  margin: 5px 5px;
 }
 
 .addNewButton {
