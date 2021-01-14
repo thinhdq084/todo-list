@@ -1,5 +1,5 @@
 import React from "react";
-import TodoList from "./TodoList";
+import TodoList from "./TodoItem";
 
 function Completed({ tasks, removeTask, onStatusChanged, onFavouriteChanged }) {
   let completedTasks = tasks
