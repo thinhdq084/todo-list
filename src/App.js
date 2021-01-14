@@ -71,13 +71,13 @@ function App() {
         </header>
         <section className="container">
           <InCompleted
-            tasks={listTasks}
+            tasks={[...listTasks.filter((task) => task.status === 0)]}
             removeTask={removeTask}
             onStatusChanged={onStatusChanged}
             onFavouriteChanged={onFavouriteChanged}
           />
           <Completed
-            tasks={listTasks}
+            tasks={[...listTasks.filter((task) => task.status === 1)]}
             removeTask={removeTask}
             onStatusChanged={onStatusChanged}
             onFavouriteChanged={onFavouriteChanged}
