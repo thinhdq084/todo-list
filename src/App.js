@@ -67,10 +67,9 @@ function App() {
       <main>
         <header className="container" align="center">
           <h1 align="center">List Task</h1>
+          <AddTask addNewTask={addTask} />
         </header>
         <section className="container">
-          {/* {itemAddTask} */}
-          <AddTask addNewTask={addTask} />
           <InCompleted
             tasks={listTasks}
             removeTask={removeTask}

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./AddTask.css";
 
-const AddTask = ({ addNewTask, closeAddNew }) => {
+const AddTask = ({ addNewTask }) => {
   let [name, setName] = useState("");
   let [description, setDescription] = useState("");
   let [showAddTask, setShowAddTask] = useState(false);
@@ -13,10 +13,6 @@ const AddTask = ({ addNewTask, closeAddNew }) => {
   let closeForm = () => {
     setShowAddTask(false);
   };
-
-  // let linkList = () => {
-  //   closeAddNew();
-  // };
 
   let handleAddTask = () => {
     addNewTask(name, description);
@@ -31,20 +27,6 @@ const AddTask = ({ addNewTask, closeAddNew }) => {
   let onChangedDes = (e) => {
     setDescription(e.target.value);
   };
-
-  // let itemAddTask = "";
-
-  // if (showAddTask === true) {
-  //   itemAddTask = <AddTask addNewTask={addTask} closeAddNew={closeForm} />;
-  // } else {
-  //   itemAddTask = (
-  //     <div className="buttonRow">
-  //       <button className="addNewButton" onClick={fnShowAddTask}>
-  //         Add Task
-  //       </button>
-  //     </div>
-  //   );
-  // }
 
   if (showAddTask === true) {
     return (
