@@ -10,13 +10,15 @@
 }
 
 .colLeft {
-  /* width: 70%; */
+  width: 70%;
   display: flex;
+  align-items: center;
+  align-content: center;
   justify-content: flex-start;
 }
 
 .chk {
-  /* color: #0fed64; */
+  color: #0fed64;
   padding: 5px;
   margin: 5px;
   width: 20px;
@@ -63,7 +65,6 @@ a:hover {
   fill: #7d7d7d;
   transition: color 150ms linear, background-color 150ms linear,
     fill 150ms linear, 150ms opacity linear;
-  /* cursor: pointer; */
 }
 
 .close:hover {

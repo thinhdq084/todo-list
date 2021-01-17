@@ -7,17 +7,17 @@ function TodoList({
   taskName,
   description,
   taskStatus,
-  favourite,
+  isFavorite,
   onRemoveTask,
   onStatusChanged,
-  onFavouriteChanged,
+  onFavoriteChanged,
 }) {
-  let itemFavourite = !favourite ? (
-    <StarOutlined onClick={() => onFavouriteChanged(1, taskId)} />
+  let itemisFavorite = !isFavorite ? (
+    <StarOutlined onClick={() => onFavoriteChanged(true, taskId)} />
   ) : (
     <StarTwoTone
       twoToneColor="#eb2f96"
-      onClick={() => onFavouriteChanged(0, taskId)}
+      onClick={() => onFavoriteChanged(false, taskId)}
     />
   );
   return (
@@ -28,17 +28,17 @@ function TodoList({
             className="chk"
             type="checkbox"
             checked={taskStatus}
-            onChange={(x) => onStatusChanged(x, taskId)}
+            onChange={(x) => onStatusChanged(x.target.checked, taskId)}
           />
         </div>
         <div className="name">
           <a href="#">{taskName}</a>
-          <br />
-          <label className="description">{description}</label>
+          {/* <br />
+          <label className="description">{description}</label> */}
         </div>
       </div>
       <div className="colRight">
-        <div>{itemFavourite}</div>
+        <div>{itemisFavorite}</div>
         <div className="remove">
           <svg
             version="1.1"
