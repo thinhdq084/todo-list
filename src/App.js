@@ -15,14 +15,18 @@ function App() {
   const [reLoadCount, setReloadCount] = useState(0);
   const [isLoading, setLoading] = useState(true);
   const [isError, setError] = useState(false);
+  const [strMessage, setMessage] = useState("");
 
   useEffect(async () => {
+    // const response = await getTodoList();
     try {
       setError(false);
       // setLoading(true);
+      // setTask(response.data);
       setTask((await getTodoList()).data);
     } catch {
       setError(true);
+      // setMessage(response);
     } finally {
       setLoading(false);
     }
@@ -76,6 +80,7 @@ function App() {
   const content = () => {
     return isError ? (
       <div align="center">
+        {/* <div>{strMessage}</div> */}
         <div>Lỗi rồi</div>
         <button
           onClick={() => {

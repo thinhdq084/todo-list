@@ -2,17 +2,16 @@
   border-top: 1px solid #ddd;
 }
 
-
 input {
-  width: 80%;
+  width: 100%;
+  border: 1px solid gray;
+  padding: 15px;
+  background: white;
   display: flex;
+  align-items: center;
+  align-content: center;
+  position: relative;
   border-radius: 5px;
-  margin: 5px 5px;
-}
-
-.addNewButton {
-  width: 30%;
-  display: center;
 }
 
 h2{
@@ -21,7 +20,8 @@ h2{
 
 .addRow {
   padding: 0.25rem 0;
-  margin: 0px 20px;
+  /* margin: 0px 20px; */
+  margin: 5px 5px;
   border-bottom: 1px solid #ddd;
   position: relative;
   display: flex;
@@ -29,14 +29,4 @@ h2{
   justify-content: flex-end; 
   align-items: center;
   align-content: center;
-}
-
-.buttonRow {
-  padding: 0.25rem 0;
-  position: relative;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  /* width: 98%; */
-  margin: 5px 5px;
 }
