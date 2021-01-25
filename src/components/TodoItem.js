@@ -5,7 +5,6 @@ import { StarOutlined, StarTwoTone } from "@ant-design/icons";
 function TodoList({
   taskId,
   taskName,
-  description,
   taskStatus,
   isFavorite,
   onRemoveTask,
@@ -13,11 +12,11 @@ function TodoList({
   onFavoriteChanged,
 }) {
   let itemisFavorite = !isFavorite ? (
-    <StarOutlined onClick={() => onFavoriteChanged(true, taskId)} />
+    <StarOutlined onClick={() => onFavoriteChanged(taskId, true)} />
   ) : (
     <StarTwoTone
       twoToneColor="#eb2f96"
-      onClick={() => onFavoriteChanged(false, taskId)}
+      onClick={() => onFavoriteChanged(taskId, false)}
     />
   );
   return (
@@ -28,7 +27,7 @@ function TodoList({
             className="chk"
             type="checkbox"
             checked={taskStatus}
-            onChange={(x) => onStatusChanged(x.target.checked, taskId)}
+            onChange={(x) => onStatusChanged(taskId, x.target.checked)}
           />
         </div>
         <div className="name">

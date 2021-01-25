@@ -1,12 +1,18 @@
 import React from "react";
-import TodoList from "./TodoItem";
+import { connect } from "react-redux";
+import TodoItem from "./TodoItem";
 import _ from "lodash";
+import {
+  changeTaskStatus,
+  changeTaskFavourite,
+  deleteTodo,
+} from "../redux/actionCreators";
 
 function InCompleted({
   tasks,
-  removeTask,
-  onStatusChanged,
-  onFavoriteChanged,
+  changeTaskStatus,
+  changeTaskFavourite,
+  deleteTodo,
 }) {
   return (
     <div>
@@ -17,16 +23,16 @@ function InCompleted({
         {_.orderBy(tasks, ["isFavorite", "createdDate"], ["desc", "asc"]).map(
           (task) => {
             return (
-              <TodoList
+              <TodoItem
                 key={task.id}
                 taskId={task.id}
                 taskName={task.taskName}
                 description={task.description}
                 isFavorite={task.isFavorite}
                 taskStatus={task.isCompleted}
-                onRemoveTask={removeTask}
-                onStatusChanged={onStatusChanged}
-                onFavoriteChanged={onFavoriteChanged}
+                onRemoveTask={deleteTodo}
+                onStatusChanged={changeTaskStatus}
+                onFavoriteChanged={changeTaskFavourite}
               />
             );
           }
@@ -35,4 +41,15 @@ function InCompleted({
     </div>
   );
 }
-export default InCompleted;
+
+const mapStateToProps = () => {
+};
+const mapDispatchToProps = {
+  deleteTodo,
+  changeTaskStatus,
+  changeTaskFavourite,
+};
+export default connect(null, {
+  mapStateToProps,
+  mapDispatchToProps,
+})(InCompleted);

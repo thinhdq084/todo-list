@@ -1,12 +1,14 @@
 import React, { useState } from "react";
+import { connect } from "react-redux";
 import "./AddNewTask.css";
+import { addTodo } from "../redux/actionCreators";
 
 const AddNewTask = ({ addNewTask }) => {
   let [name, setName] = useState("");
 
   let handleKeyPress = (event) => {
     if (event.key === "Enter") {
-      addNewTask(name);
+      addTodo(name);
       setName("");
     }
   };
