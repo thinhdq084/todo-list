@@ -1,3 +1,4 @@
+// import { useEffect } from "react";
 import { combineReducers } from "redux";
 import {
   getTodoList,
@@ -6,20 +7,29 @@ import {
   changeTaskFavourite,
 } from "../Services/TodoServices";
 
-const convertDate = (time) => new Date(time).getTime();
+async function TodoReducers(
+  state = { listTasks: [], isError: false, isLoading: false, loadingCount: 0 },
+  action
+) {
+  const convertDate = (time) => new Date(time).getTime();
 
-const getAllTodo = async () => {
-  (await getTodoList()).data.data.map((task) => {
-    return {
-      ...task,
-      createdDate: convertDate(task.createdDate),
-      completedDate: convertDate(task.completedDate),
-    };
-  });
-};
+  const getAllTodo = async () => {
+    (await getTodoList()).data.data.map((task) => {
+      return {
+        ...task,
+        createdDate: convertDate(task.createdDate),
+        completedDate: convertDate(task.completedDate),
+      };
+    });
+  };
 
-// const todoReducers =
-async function todoReducers(state = { listTasks: [] }, action) {
+  // useEffect(() => {
+  //   async function fetchData() {
+  //     state.listTasks = await getAllTodo();
+  //   }
+  //   fetchData();
+  // }, [state.loadingCount]);
+
   switch (action.type) {
     case "GET_TODO": {
       return { ...state, listTasks: await getAllTodo() };
@@ -61,4 +71,4 @@ async function todoReducers(state = { listTasks: [] }, action) {
   }
 }
 
-export default combineReducers({ todoReducers });
+export default combineReducers({ TodoReducers });

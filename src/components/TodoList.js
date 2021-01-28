@@ -1,10 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import InCompleted from "./InCompleted";
 import Completed from "./Completed";
 import { getTodoList } from "../redux/actionCreators";
 
-export function TodoList({ listTasks, getTodoList }) {
+export function TodoList({ listTasks, loadingCount, isError, getTodoList }) {
+  useEffect(() => {
+    function fetchData() {
+      listTasks = getTodoList();
+    }
+    fetchData();
+  }, [loadingCount]);
+
   return (
     <section className="container">
       <InCompleted tasks={[...listTasks.filter((task) => !task.isCompleted)]} />
@@ -16,8 +23,9 @@ export function TodoList({ listTasks, getTodoList }) {
 const mapStateToProps = (state) => {
   return {
     // listTasks: getTodoList(),
-    listTasks: state.todoReducers.getTodoList(),
-    // listTasks: state.todoReducers.listTasks,
+    listTasks: state.TodoReducers.listTasks,
+    loadingCount: state.TodoReducers.loadingCount,
+    isError: state.TodoReducers.isError,
   };
 };
 const mapDispatchToProps = { getTodoList };
