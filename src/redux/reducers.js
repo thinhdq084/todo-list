@@ -1,74 +1,56 @@
-// import { useEffect } from "react";
 import { combineReducers } from "redux";
-import {
-  getTodoList,
-  addNewTask,
-  changeTaskStatus,
-  changeTaskFavourite,
-} from "../Services/TodoServices";
+import { actionTypes } from "./actionTypes";
+import { getUsers } from "../Services/ListUser";
 
-async function TodoReducers(
-  state = { listTasks: [], isError: false, isLoading: false, loadingCount: 0 },
-  action
-) {
-  const convertDate = (time) => new Date(time).getTime();
+const initialState = {
+  listTasks: [],
+  isError: false,
+  isLoading: false,
+  loadingCount: 0,
+  userName: "",
+  passWord: "",
+  isLogin: false,
+};
 
-  const getAllTodo = async () => {
-    (await getTodoList()).data.data.map((task) => {
-      return {
-        ...task,
-        createdDate: convertDate(task.createdDate),
-        completedDate: convertDate(task.completedDate),
-      };
-    });
-  };
-
-  // useEffect(() => {
-  //   async function fetchData() {
-  //     state.listTasks = await getAllTodo();
-  //   }
-  //   fetchData();
-  // }, [state.loadingCount]);
-
+const todoReducers = (state = initialState, action) => {
   switch (action.type) {
-    case "GET_TODO": {
-      return { ...state, listTasks: await getAllTodo() };
-    }
-    case "ADD_TODO": {
-      try {
-        await addNewTask(action.payload.taskName);
-      } catch {
-      } finally {
-        return { ...state, listTasks: await getAllTodo() };
+    case actionTypes.login: {
+      if (
+        getUsers().find(
+          (u) =>
+            u.userName === action.payload.userName &&
+            u.passWord === action.payload.passWord
+        )
+      ) {
+        return {
+          ...state,
+          userName: action.payload.userName,
+          passWord: action.payload.passWord,
+          isLogin: true,
+        };
       }
-    }
-    case "CHANGE_STATUS": {
-      try {
-        await changeTaskStatus(state.id, action.payload.isCompleted);
-      } catch {
-      } finally {
-        return { ...state, listTasks: await getAllTodo() };
-      }
-    }
-    case "CHANGE_FAVOURITE": {
-      try {
-        await changeTaskFavourite(state.id, action.payload.isCompleted);
-      } catch {
-      } finally {
-        return { ...state, listTasks: await getAllTodo() };
-      }
-    }
-    case "DELETE": {
+
       return {
         ...state,
-        listTasks: {
-          ...state.listTasks.filter((task) => task.id !== state.todoItem.id),
-        },
+        userName: "",
+        passWord: "",
+        isLogin: false,
       };
     }
-    default:
-      return { ...state, listTasks: await getAllTodo() };
-  }
-}
+    case actionTypes.logout: {
+      return {
+        ...state,
+        userName: "",
+        passWord: "",
+        isLogin: false,
+      };
+    }
 
-export default combineReducers({ TodoReducers });
+    default:
+      return {
+        ...state,
+      };
+  }
+};
+
+export default combineReducers({ todoReducers });

@@ -38,3 +38,14 @@ export const changeTaskFavourite = async (id, isFavorite) => {
     // { timeout: 2000 }
   );
 };
+
+export const deleteTodo = async (listTasks, taskId) => {
+  return { ...listTasks.filter((task) => task.id !== taskId) };
+};
+// const mapStateToProps = (state) => {
+//   return {
+//     listTasks: state.todoReducers.listTasks,
+//   };
+// };
+// const mapDispatchToProps = {};
+// export default connect(mapStateToProps, mapDispatchToProps)(deleteTodo);

@@ -1,0 +1,30 @@
+.mainLogin {
+  max-width: 400px;
+  margin: auto auto;
+  overflow: auto;
+  background-color: #a9ac02;
+  /* display: flex;
+  align-items: center;
+  align-content: center; */
+}
+
+.loginRow {
+  max-width: 400px;
+  margin: auto auto;
+  overflow: auto;
+  background-color: #a9ac02;
+  display: flex;
+  justify-content: space-between;
+}
+
+.inputLogin {
+  width: 70%;
+  border: 1px solid gray;
+  padding: 5px;
+  background: white;
+  display: flex;
+  align-items: center;
+  align-content: center;
+  position: relative;
+  border-radius: 5px;
+}

@@ -1,25 +1,26 @@
+import { actionTypes } from "./actionTypes";
 // increment, decrement, reset
-export const getTodoList = () => ({
-  type: "GET_TODO",
+export const getAllTodo = () => ({
+  type: actionTypes.getTodo,
   payload: {},
 });
 
 export const addTodo = (taskName) => ({
-  type: "ADD_TODO",
+  type: actionTypes.addTodo,
   payload: {
     taskName: taskName,
   },
 });
 
 export const deleteTodo = (taskId) => ({
-  type: "DELETE",
+  type: actionTypes.deleteTodo,
   payload: {
     id: taskId,
   },
 });
 
 export const changeTaskStatus = (taskId, isCompleted) => ({
-  type: "CHANGE_STATUS",
+  type: actionTypes.changeTaskStatus,
   payload: {
     id: taskId,
     isCompleted: isCompleted,
@@ -27,9 +28,22 @@ export const changeTaskStatus = (taskId, isCompleted) => ({
 });
 
 export const changeTaskFavourite = (taskId, isFavorite) => ({
-  type: "CHANGE_FAVOURITE",
+  type: actionTypes.changeTaskFavourite,
   payload: {
     id: taskId,
     isFavorite: isFavorite,
   },
+});
+
+export const login = (userName, passWord) => ({
+  type: actionTypes.login,
+  payload: {
+    userName: userName,
+    passWord: passWord,
+  },
+});
+
+export const logout = (userName, passWord) => ({
+  type: actionTypes.logout,
+  payload: {},
 });

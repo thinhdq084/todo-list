@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+import { connect } from "react-redux";
 import AddNewTask from "./AddNewTask";
 import { addNewTask } from "../Services/TodoServices";
+import { logout } from "../redux/actionCreators";
 
-const Header = ({ setReload, reloadCount }) => {
+const Header = ({ setReload, reloadCount, logout }) => {
   const [isAddError, setError] = useState(false);
   const [strMessage, setMessage] = useState("");
 
@@ -25,11 +27,17 @@ const Header = ({ setReload, reloadCount }) => {
 
   return (
     <header className="container" align="center">
-      <h1 align="center">List Task</h1>
-      <AddNewTask addNewTask={addTask} />
-      {!isAddError ? strMessage : ""}
+      <div>
+        <h1 align="center">List Task</h1>
+        <label onClick={() => logout()}>Logout</label>
+      </div>
+      <div>
+        <AddNewTask addNewTask={addTask} />
+        {!isAddError ? strMessage : ""}
+      </div>
     </header>
   );
 };
-
-export default Header;
+const mapStateToProps = (state) => {};
+const mapDispatchToProps = { logout };
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

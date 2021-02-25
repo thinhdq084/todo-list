@@ -1,55 +1,44 @@
 import React from "react";
-import { connect } from "react-redux";
 import TodoItem from "./TodoItem";
 import _ from "lodash";
 import {
   changeTaskStatus,
   changeTaskFavourite,
   deleteTodo,
-} from "../redux/actionCreators";
+} from "../Services/TodoServices";
 
-function InCompleted({
-  tasks,
-  changeTaskStatus,
-  changeTaskFavourite,
-  deleteTodo,
-}) {
+function InCompleted({ tasks }) {
   return (
     <div>
       <div>
-        <h4>InCompleted: {tasks.length} task</h4>
+        <h4>
+          InCompleted: {[...tasks.filter((task) => !task.isCompleted)].length}{" "}
+          task
+        </h4>
       </div>
       <ul className="listTask">
-        {_.orderBy(tasks, ["isFavorite", "createdDate"], ["desc", "asc"]).map(
-          (task) => {
-            return (
-              <TodoItem
-                key={task.id}
-                taskId={task.id}
-                taskName={task.taskName}
-                description={task.description}
-                isFavorite={task.isFavorite}
-                taskStatus={task.isCompleted}
-                onRemoveTask={deleteTodo}
-                onStatusChanged={changeTaskStatus}
-                onFavoriteChanged={changeTaskFavourite}
-              />
-            );
-          }
-        )}
+        {_.orderBy(
+          [...tasks.filter((task) => !task.isCompleted)],
+          ["isFavorite", "createdDate"],
+          ["desc", "asc"]
+        ).map((task) => {
+          return (
+            <TodoItem
+              key={task.id}
+              taskId={task.id}
+              taskName={task.taskName}
+              description={task.description}
+              isFavorite={task.isFavorite}
+              taskStatus={task.isCompleted}
+              onRemoveTask={() => deleteTodo(tasks, task.id)}
+              onStatusChanged={() => changeTaskStatus(task.id, !task.isCompleted)}
+              onFavoriteChanged={() => changeTaskFavourite(task.id, !task.isFavorite)}
+            />
+          );
+        })}
       </ul>
     </div>
   );
 }
 
-const mapStateToProps = () => {
-};
-const mapDispatchToProps = {
-  deleteTodo,
-  changeTaskStatus,
-  changeTaskFavourite,
-};
-export default connect(null, {
-  mapStateToProps,
-  mapDispatchToProps,
-})(InCompleted);
+export default InCompleted;
